@@ -20,7 +20,7 @@ const TodoApp: React.FC = () => {
   // 处理添加 Todo 的函数
   const handleAddTodo = (): void => {
     if (inputValue.trim() !== '') {
-      setTodos((prevTodos) => [
+      setTodos((prevTodos: any) => [
         ...prevTodos,
         {
           id: Date.now(),
@@ -49,34 +49,34 @@ const TodoApp: React.FC = () => {
   return (
     <div className='todo-contaier'>
       <div className='todo-contaier-warp'>
-      <h1 className='todo-contaier-warp-header'>Todos</h1>
-      <div className='todo-contaier-warp-input'>
-        <input
-          type="text"
-          className='todo-contaier-warp-input-conent'
-          placeholder="Add a new todo"
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        <button onClick={handleAddTodo}>Add Todo</button>
-      </div>
-      <ul className='todo-contaier-warp-list'>
-        {todos.map((todo) => (
-          <li key={todo.id} className='todo-contaier-warp-list-item'>
-            <span
-              style={{
-                textDecoration: todo.completed ? 'line-through' : 'none',
-              }}
-            >
-              {todo.text}
-            </span>
-            <button onClick={() => handleToggleTodo(todo.id)}>
-              {todo.completed ? 'Mark as Undone' : 'Mark as Done'}
-            </button>
-            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+        <h1 className='todo-contaier-warp-header'>Todos</h1>
+        <div className='todo-contaier-warp-input'>
+          <input
+            type="text"
+            className='todo-contaier-warp-input-conent'
+            placeholder="Add a new todo"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+          <button onClick={handleAddTodo}>Add Todo</button>
+        </div>
+        <ul className='todo-contaier-warp-list'>
+          {todos.map((todo) => (
+            <li key={todo.id} className='todo-contaier-warp-list-item'>
+              <span
+                style={{
+                  textDecoration: todo.completed ? 'line-through' : 'none',
+                }}
+              >
+                {todo.text}
+              </span>
+              <button onClick={() => handleToggleTodo(todo.id)}>
+                {todo.completed ? 'Mark as Undone' : 'Mark as Done'}
+              </button>
+              <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
