@@ -1,4 +1,4 @@
-name: Deploy to Pages
+name: Deploy React App to GitHub Pages
 
 on:
   push:
@@ -27,13 +27,13 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install
+      - name: Install Dependencies
         run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Upload Pages Artifact
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
@@ -48,6 +48,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
