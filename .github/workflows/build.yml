@@ -1,0 +1,30 @@
+name: Vue CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout代码
+        uses: actions/checkout@v4
+
+      - name: 安装Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 查看版本
+        run: |
+          node -v
+          npm -v
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 构建项目
+        run: npm run build
