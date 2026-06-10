@@ -1,9 +1,10 @@
-name: Deploy to GitHub Pages
+name: CI/CD
 
 on:
   push:
     branches:
       - main
+      - 'dev_*'
 
 permissions:
   contents: read
@@ -11,6 +12,7 @@ permissions:
   id-token: write
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
 
@@ -23,27 +25,41 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install
         run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Upload Pages Artifact
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
-  deploy:
+  deploy-dev:
     needs: build
+
+    if: startsWith(github.ref_name, 'dev_')
 
     runs-on: ubuntu-latest
 
     environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      name: development
 
     steps:
-      - name: Deploy
-        id: deployment
+      - name: Deploy Dev
+        uses: actions/deploy-pages@v4
+
+  deploy-prod:
+    needs: build
+
+    if: github.ref_name == 'main'
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: production
+
+    steps:
+      - name: Deploy Production
         uses: actions/deploy-pages@v4
